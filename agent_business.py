@@ -1,53 +1,39 @@
 import os
-
-STRATEGIC_BUSINESS_PROMPT = """
-You are the Chief Strategy Officer (CSO) and Business Architect of Prem-Swarm-AI.
-Your primary directive is to evaluate ideas, products, and operations through top-tier executive business logic.
-
-When presented with any problem or business query, analyze it using the following 5-Layer Strategic Framework:
-
-1. EXECUTIVE SUMMARY & CORE THESIS:
-   - Clear value proposition in 2 sentences max.
-   - High-level verdict (Go / No-Go / Pivot) with primary justification.
-
-2. UNIT ECONOMICS & MONETIZATION:
-   - Pricing Models (SaaS, Usage-based, Freemium, Enterprise).
-   - Cost Structure & Margin Analysis (COGS, Token/Infrastructure costs, Operational overhead).
-   - Key Metrics: LTV (Lifetime Value), CAC (Customer Acquisition Cost), Churn targets.
-
-3. DEFENSIBILITY & MOAT ANALYSIS:
-   - What prevents competitors from copying this in 6 months? (Network Effects, Switching Costs, Proprietary Data/Tech, Scale).
-
-4. RISK MATRIX & MITIGATION:
-   - Top 3 Operational, Financial, or Market risks.
-   - Scenario Planning: Best Case, Base Case, Worst Case (with exact containment protocols).
-
-5. GO-TO-MARKET (GTM) & ROADMAP:
-   - Phase 1 (0-30 Days): MVP & First 100 Power Users.
-   - Phase 2 (30-90 Days): Distribution Channels, Viral Loops, Growth Loops.
-   - Phase 3 (Scale): Monopolization / Category Dominance Strategy.
-
-Rules for Output:
-- Do NOT use generic business fluff or corporate jargon without metrics.
-- Always demand or calculate estimated financial numbers.
-- Be brutally honest about flaws in business logic; prioritize profitability and long-term sustainability.
-"""
+import requests
 
 class BusinessAgent:
-    def __init__(self, brain=None):
-        self.brain = brain
+    def __init__(self):
+        self.agent_id = "Business-02"
+        self.groq_api_key = os.getenv("GROQ_API_KEY", "").strip()
 
-    def analyze_business_strategy(self, query):
-        if not self.brain:
-            return "Brain engine not connected to BusinessAgent."
-            
-        # Multi-Perspective Executive Deliberation
-        cfo_prompt = "You are an aggressive CFO. Focus strictly on margins, cash flow burn, ROI, and cost optimization."
-        cmo_prompt = "You are a Growth CMO. Focus strictly on CAC reduction, distribution channels, user retention, and viral loops."
+    def generate_monetization_plan(self, business_niche):
+        print(f"💼 [{self.agent_id}] Groq AI Synthesizing Business Strategy for: '{business_niche}'...")
 
-        cfo_view = self.brain.query(cfo_prompt, query)
-        cmo_view = self.brain.query(cmo_prompt, query)
+        if not self.groq_api_key:
+            return "Mock Strategy: Set subscription tier at $29/mo."
 
-        synthesis_input = f"User Query: {query}\n\n[CFO Analysis]: {cfo_view}\n\n[CMO Analysis]: {cmo_view}"
-        
-        return self.brain.query(STRATEGIC_BUSINESS_PROMPT, synthesis_input)
+        headers = {
+            "Authorization": f"Bearer {self.groq_api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Android; Mobile)"
+        }
+
+        prompt = f"Create a concise, high-converting monetization framework for a tech product named '{business_niche}'. Include: 1. Target Audience, 2. Revenue Model (SaaS/Tiered), 3. Key Value Proposition. Keep under 150 words."
+
+        payload = {
+            "model": "llama-3.1-8b-instant",
+            "messages": [
+                {"role": "system", "content": "You are a senior SaaS Business Growth Executive."},
+                {"role": "user", "content": prompt}
+            ],
+            "temperature": 0.4,
+            "max_tokens": 300
+        }
+
+        try:
+            res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=15)
+            if res.status_code == 200:
+                return res.json()['choices'][0]['message']['content'].strip()
+            return "Error generating live strategy."
+        except Exception as e:
+            return f"Business Strategy Error: {e}"

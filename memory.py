@@ -1,60 +1,40 @@
 import sqlite3
-import json
-from datetime import datetime
 
-class SwarmMemory:
+class MemoryCore:
     def __init__(self, db_name="swarm_memory.db"):
         self.db_name = db_name
-        self._init_db()
+        self.init_db()
 
-    def _init_db(self):
-        """Database aur tables initialize karta hai agar exist na karte ho."""
+    def init_db(self):
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
-        
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS memory_logs (
+            CREATE TABLE IF NOT EXISTS learnings (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT NOT NULL,
-                agent_id TEXT NOT NULL,
-                mission TEXT NOT NULL,
-                status TEXT NOT NULL,
-                output TEXT
+                topic TEXT,
+                error_log TEXT,
+                solution TEXT,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         ''')
-        
         conn.commit()
         conn.close()
 
-    def add_log(self, agent_id, mission, status="Completed", output=""):
-        """Nayi memory entry database mein save karta hai."""
+    def save_learning(self, topic, error_log, solution):
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
-        
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
         cursor.execute('''
-            INSERT INTO memory_logs (timestamp, agent_id, mission, status, output)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (timestamp, agent_id, mission, status, str(output)))
-        
+            INSERT INTO learnings (topic, error_log, solution)
+            VALUES (?, ?, ?)
+        ''', (topic, error_log, solution))
         conn.commit()
         conn.close()
-        print(f"[MEMORY DB SAVED] Log stored for '{agent_id}' at {timestamp}")
+        print(f"🧠 [Self-Learning Core] Saved new learning/fix to memory for '{topic}'.")
 
-    def fetch_all_logs(self):
-        """Sabhi stored memory logs fetch karke display karta hai."""
+    def recall_learnings(self, topic):
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
-        
-        cursor.execute('SELECT id, timestamp, agent_id, mission, status FROM memory_logs')
+        cursor.execute("SELECT solution FROM learnings WHERE topic LIKE ?", (f"%{topic}%",))
         rows = cursor.fetchall()
         conn.close()
-        return rows
-
-if __name__ == "__main__":
-    mem = SwarmMemory()
-    mem.add_log("System_Test", "Database Verification", "Success", "Test Output")
-    print("\n--- Current DB Logs ---")
-    for log in mem.fetch_all_logs():
-        print(log)
+        return [r[0] for r in rows]

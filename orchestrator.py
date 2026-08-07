@@ -1,94 +1,90 @@
-import asyncio
-import json
 import os
-
-# Safe Dynamic Imports
-try:
-    from agent_coder import CoderAgent
-except ImportError:
-    CoderAgent = None
-
-try:
-    from agent_executor import ExecutorAgent
-except ImportError:
-    ExecutorAgent = None
-
-try:
-    from agent_media import MediaAgent
-except ImportError:
-    MediaAgent = None
-
-try:
-    from agent_researcher import ResearchAgent
-except ImportError:
-    ResearchAgent = None
-
-from agent_trading import TradingAgent
-from agent_healer import AutoHealerAgent
+import asyncio
 from agent_business import BusinessAgent
+from agent_coder import CoderAgent
+from agent_reviewer import ReviewerAgent
+from memory import MemoryCore
 
+from brain.utils import validate_and_clean_input, generate_tool_name
+from brain.intent_engine import IntentEngine
+from brain.planning_engine import PlanningEngine
+from brain.critic import AdversarialCritic
+from brain.failure_analyzer import FailureAnalyzer
+from safety.sandbox import ExecutionSandbox
+from evolution.evaluator import SystemEvaluator
 
 class MasterOrchestrator:
     def __init__(self):
-        print("\n⚡ [SWARM MATRIX] Initializing 10-Agent Autonomous Core...")
+        print("\n⚡ [SWARM COGNITIVE MATRIX] Initializing Subsystems...")
+        self.intent_engine = IntentEngine()
+        self.planner = PlanningEngine()
+        self.critic = AdversarialCritic()
+        self.failure_analyzer = FailureAnalyzer()
+        self.sandbox = ExecutionSandbox()
+        self.evaluator = SystemEvaluator()
         
-        # Core Specialized Agents Loading
-        self.trader = TradingAgent()
-        self.healer = AutoHealerAgent()
         self.business = BusinessAgent()
-        
-        # Optional Agents Integration
-        self.coder = CoderAgent() if CoderAgent else None
-        self.executor = ExecutorAgent() if ExecutorAgent else None
-        self.media = MediaAgent() if MediaAgent else None
-        self.researcher = ResearchAgent() if ResearchAgent else None
-        
-        # System Memory Engine
-        self.memory_file = "swarm_brain_memory.json"
-        self.load_memory()
+        self.coder = CoderAgent()
+        self.reviewer = ReviewerAgent()
+        self.memory = MemoryCore()
 
-    def load_memory(self):
-        if os.path.exists(self.memory_file):
-            try:
-                with open(self.memory_file, "r") as f:
-                    self.memory = json.load(f)
-                print("🧠 [Memory Core] Persistent Memory Loaded.")
-            except Exception:
-                self.memory = {}
-        else:
-            self.memory = {}
+    async def run_full_swarm_cycle(self, user_input):
+        # 0. Strict Input Validation
+        clean_prompt = validate_and_clean_input(user_input)
+        if not clean_prompt:
+            print("⚠️ [Input Gate] Invalid or UI prompt echo detected. Aborting mission.")
+            return
 
-    async def execute_task_with_healing(self, agent_name, task_func, *args, **kwargs):
-        """Auto-Healer wrapper to intercept errors dynamically"""
+        intent_info = self.intent_engine.classify_intent(clean_prompt)
+        print(f"\n🧭 [Intent Classifier] Input Type Detected: '{intent_info['intent']}'")
+
+        if intent_info["intent"] == "RUN_COMMAND":
+            print(f"⚙️ [System Exec Routing] Executing shell command: '{clean_prompt}'")
+            os.system(clean_prompt)
+            return
+
+        business_niche = clean_prompt
+        filename = generate_tool_name(business_niche)
+        print(f"\n=================== 🚀 COGNITIVE MATRIX RUN: {business_niche[:50]}... ===================")
+        print(f"📌 Clean Tool Slug: {filename}")
+
+        # 1. Dynamic Planning & Strategy
+        plan = self.planner.decompose_mission(business_niche)
         try:
-            return await task_func(*args, **kwargs)
+            biz_plan = self.business.generate_monetization_plan(business_niche)
         except Exception as e:
-            print(f"\n⚠️ Failure detected in [{agent_name}]: {e}")
-            return await self.healer.diagnose_and_fix(agent_name, str(e), task_func, *args, **kwargs)
+            print(f"⚠️ Strategy warning: {e}")
 
-    async def run_full_swarm_cycle(self, trade_symbol="RELIANCE", business_niche="FinTech Automation"):
-        print("\n=================== 🚀 RUNNING FULL SWARM CYCLE ===================")
-        
-        # 1. Business Strategy Task
-        biz_plan = self.business.generate_monetization_plan(business_niche)
-        print(f"📈 [Business Strategy Output]: {biz_plan['strategy']}")
+        # 2. Solver Synthesis & Sandbox Evaluation Loop (With Auto-Repair)
+        failure_context = None
+        for repair_cycle in range(1, 3):
+            print(f"\n🔄 --- Synthesis & Test Pass (Cycle {repair_cycle}) ---")
+            created_file = self.coder.build_tool(business_niche, f"Automated engine for {business_niche}", failure_context)
+            
+            if not created_file or not os.path.exists(created_file):
+                print("❌ File synthesis failed completely.")
+                break
 
-        # 2. Trading Task with Auto-Healing Safety Net
-        trade_res = await self.execute_task_with_healing(
-            "TradingAgent", 
-            self.trader.analyze_and_trade, 
-            symbol=trade_symbol, 
-            action="BUY", 
-            quantity=1
-        )
-        print(f"💰 [Trading Agent Output]: {trade_res}")
+            with open(created_file, 'r') as f:
+                code = f.read()
 
-        print("=================== ✅ SWARM CYCLE COMPLETE ===================\n")
+            critic_res = self.critic.critique_candidate(business_niche, code)
+            sec_res = self.reviewer.review_code(code)
+            sandbox_res = self.sandbox.Execute_and_benchmark(created_file)
+            eval_res = self.evaluator.evaluate_build(sandbox_res, critic_res, sec_res)
 
-if __name__ == "__main__":
-    swarm = MasterOrchestrator()
-    asyncio.run(swarm.run_full_swarm_cycle())
+            if eval_res["status"] == "PASS":
+                print(f"\n✅ Mission Passed Empirical Gate on Cycle {repair_cycle}!")
+                print(f"📊 Score: {eval_res['total_score']}/100 | Execution Latency: {sandbox_res['execution_time_ms']:.2f}ms")
+                self.memory.save_learning(
+                    business_niche, 
+                    "NO_ERROR", 
+                    f"Score: {eval_res['total_score']}/100 | File: {created_file}"
+                )
+                return
+            else:
+                print(f"⚠️ Attempt {repair_cycle} failed (Exit Code: {sandbox_res['exit_code']}). Triggering Diagnostic Analyzer...")
+                diag = self.failure_analyzer.analyze_failure(sandbox_res)
+                failure_context = f"Error Type: {diag['error_type']}\nTraceback: {diag['traceback_summary']}"
 
-    def assign_task(self, agent_id, task_description):
-        print(f"🤖 [Agent {agent_id}] Executing: {task_description}")
-        return f"Task completed by agent {agent_id}"
+        print("\n❌ Mission failed after max repair cycles. Rollback triggered.")
