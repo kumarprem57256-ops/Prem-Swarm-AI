@@ -88,3 +88,7 @@ class MasterOrchestrator:
 if __name__ == "__main__":
     swarm = MasterOrchestrator()
     asyncio.run(swarm.run_full_swarm_cycle())
+
+    def assign_task(self, agent_id, task_description):
+        print(f"🤖 [Agent {agent_id}] Executing: {task_description}")
+        return f"Task completed by agent {agent_id}"
