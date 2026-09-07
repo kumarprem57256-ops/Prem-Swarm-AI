@@ -1,1 +1,12 @@
 test_gemini.py
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local runtime databases
+*.db
+
+# Local backup files
+*.pre_vfx
