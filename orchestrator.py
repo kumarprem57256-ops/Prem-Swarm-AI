@@ -12,6 +12,7 @@ from brain.critic import AdversarialCritic
 from brain.failure_analyzer import FailureAnalyzer
 from safety.sandbox import ExecutionSandbox
 from evolution.evaluator import SystemEvaluator
+from integrations.vfx_forge.task_router import GraphicsTaskRouter
 
 class MasterOrchestrator:
     def __init__(self):
@@ -27,6 +28,7 @@ class MasterOrchestrator:
         self.coder = CoderAgent()
         self.reviewer = ReviewerAgent()
         self.memory = MemoryCore()
+        self.graphics_router = GraphicsTaskRouter()
 
     async def run_full_swarm_cycle(self, user_input):
         # 0. Strict Input Validation
@@ -34,6 +36,37 @@ class MasterOrchestrator:
         if not clean_prompt:
             print("⚠️ [Input Gate] Invalid or UI prompt echo detected. Aborting mission.")
             return
+
+        # Graphics/VFX specialist routing gate.
+        # VFX tasks are handled by PREM-VFX-FORGE instead of
+        # entering the normal business/coder synthesis pipeline.
+        if self.graphics_router.can_handle(clean_prompt):
+            print("\n🎨 [Graphics/VFX Router] Specialist task detected.")
+
+            try:
+                result = self.graphics_router.route(clean_prompt)
+
+                print("✅ [Graphics/VFX Agent] Task completed.")
+                print(f"📦 Result: {result}")
+
+                self.memory.save_learning(
+                    clean_prompt,
+                    "VFX_SUCCESS",
+                    str(result),
+                )
+
+                return result
+
+            except Exception as e:
+                print(f"❌ [Graphics/VFX Agent] Task failed: {e}")
+
+                self.memory.save_learning(
+                    clean_prompt,
+                    "VFX_ERROR",
+                    str(e),
+                )
+
+                return
 
         intent_info = self.intent_engine.classify_intent(clean_prompt)
         print(f"\n🧭 [Intent Classifier] Input Type Detected: '{intent_info['intent']}'")
