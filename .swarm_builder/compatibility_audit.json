@@ -1,0 +1,975 @@
+{
+  "project_root": "/data/data/com.termux/files/home/Prem-Swarm-AI",
+  "mode": "read_only",
+  "targets": [
+    {
+      "file": "core/autonomy/model_adapter.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "__future__",
+        "json",
+        "os",
+        "urllib.request",
+        "urllib.error",
+        "dataclasses",
+        "typing"
+      ],
+      "classes": {
+        "ModelResponse": {},
+        "ModelAdapter": {
+          "__init__": {
+            "args": [
+              "self",
+              "timeout"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "configured": {
+            "args": [
+              "self"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "generate": {
+            "args": [
+              "self",
+              "system",
+              "prompt"
+            ],
+            "kwonly": [
+              "temperature",
+              "max_tokens"
+            ],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self",
+            "timeout"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "configured": {
+          "args": [
+            "self"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "generate": {
+          "args": [
+            "self",
+            "system",
+            "prompt"
+          ],
+          "kwonly": [
+            "temperature",
+            "max_tokens"
+          ],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    },
+    {
+      "file": "core/autonomy/codebase_intelligence.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "__future__",
+        "ast",
+        "hashlib",
+        "pathlib",
+        "typing"
+      ],
+      "classes": {
+        "CodebaseIntelligence": {
+          "__init__": {
+            "args": [
+              "self",
+              "root"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "scan": {
+            "args": [
+              "self"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "relevant_context": {
+            "args": [
+              "self",
+              "spec",
+              "limit"
+            ],
+            "kwonly": [],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self",
+            "root"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "scan": {
+          "args": [
+            "self"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "relevant_context": {
+          "args": [
+            "self",
+            "spec",
+            "limit"
+          ],
+          "kwonly": [],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    },
+    {
+      "file": "core/autonomy/architect.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "__future__",
+        "json",
+        "dataclasses",
+        "typing"
+      ],
+      "classes": {
+        "FileChange": {},
+        "BuildPlan": {},
+        "AutonomousArchitect": {
+          "__init__": {
+            "args": [
+              "self",
+              "model"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "create_plan": {
+            "args": [
+              "self",
+              "spec",
+              "workspace",
+              "context"
+            ],
+            "kwonly": [],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self",
+            "model"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "create_plan": {
+          "args": [
+            "self",
+            "spec",
+            "workspace",
+            "context"
+          ],
+          "kwonly": [],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    },
+    {
+      "file": "core/autonomy/verification.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "__future__",
+        "subprocess",
+        "sys",
+        "dataclasses",
+        "pathlib",
+        "typing"
+      ],
+      "classes": {
+        "VerificationResult": {},
+        "VerificationEngine": {
+          "__init__": {
+            "args": [
+              "self",
+              "root"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "run": {
+            "args": [
+              "self",
+              "command",
+              "stage"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "all": {
+            "args": [
+              "self"
+            ],
+            "kwonly": [],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self",
+            "root"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "run": {
+          "args": [
+            "self",
+            "command",
+            "stage"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "all": {
+          "args": [
+            "self"
+          ],
+          "kwonly": [],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    },
+    {
+      "file": "core/autonomy/repair_engine.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "__future__",
+        "json"
+      ],
+      "classes": {
+        "RepairEngine": {
+          "__init__": {
+            "args": [
+              "self",
+              "model"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "propose": {
+            "args": [
+              "self",
+              "failure",
+              "changed_files",
+              "context"
+            ],
+            "kwonly": [],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self",
+            "model"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "propose": {
+          "args": [
+            "self",
+            "failure",
+            "changed_files",
+            "context"
+          ],
+          "kwonly": [],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    },
+    {
+      "file": "core/autonomy/integration_gate.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "__future__",
+        "hashlib",
+        "shutil",
+        "time",
+        "pathlib"
+      ],
+      "classes": {
+        "IntegrationGate": {
+          "__init__": {
+            "args": [
+              "self",
+              "root",
+              "backup_dir"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "backup": {
+            "args": [
+              "self",
+              "rel"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "snapshot_hash": {
+            "args": [
+              "self",
+              "rel"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "allowed": {
+            "args": [
+              "self",
+              "rel"
+            ],
+            "kwonly": [],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self",
+            "root",
+            "backup_dir"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "backup": {
+          "args": [
+            "self",
+            "rel"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "snapshot_hash": {
+          "args": [
+            "self",
+            "rel"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "allowed": {
+          "args": [
+            "self",
+            "rel"
+          ],
+          "kwonly": [],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    },
+    {
+      "file": "orchestrator.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "os",
+        "asyncio",
+        "agent_business",
+        "agent_coder",
+        "agent_reviewer",
+        "agent_researcher",
+        "agent_executor",
+        "agent_healer",
+        "agent_media",
+        "agent_trading",
+        "memory",
+        "brain.utils",
+        "brain.intent_engine",
+        "brain.planning_engine",
+        "brain.critic",
+        "brain.failure_analyzer",
+        "safety.sandbox",
+        "evolution.evaluator",
+        "integrations.vfx_forge.task_router",
+        "agents.registry"
+      ],
+      "classes": {
+        "MasterOrchestrator": {
+          "__init__": {
+            "args": [
+              "self"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "run_full_swarm_cycle": {
+            "args": [
+              "self",
+              "user_input"
+            ],
+            "kwonly": [],
+            "async": true
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "run_full_swarm_cycle": {
+          "args": [
+            "self",
+            "user_input"
+          ],
+          "kwonly": [],
+          "async": true
+        }
+      },
+      "errors": [],
+      "project_imports_present": [
+        "agent_business",
+        "agent_coder",
+        "agent_reviewer",
+        "agent_researcher",
+        "agent_executor",
+        "agent_healer",
+        "agent_media",
+        "agent_trading",
+        "memory",
+        "brain.utils",
+        "brain.intent_engine",
+        "brain.planning_engine",
+        "brain.critic",
+        "brain.failure_analyzer",
+        "safety.sandbox",
+        "evolution.evaluator",
+        "integrations.vfx_forge.task_router"
+      ],
+      "project_imports_missing": [
+        "agents.registry"
+      ]
+    },
+    {
+      "file": "agent_coder.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "os",
+        "re",
+        "time",
+        "ast",
+        "requests",
+        "brain.utils"
+      ],
+      "classes": {
+        "CoderAgent": {
+          "__init__": {
+            "args": [
+              "self"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "_extract_python": {
+            "args": [
+              "self",
+              "text"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "_write_verified": {
+            "args": [
+              "self",
+              "filename",
+              "code"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "build_tool": {
+            "args": [
+              "self",
+              "topic",
+              "description",
+              "failure_context"
+            ],
+            "kwonly": [],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "_extract_python": {
+          "args": [
+            "self",
+            "text"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "_write_verified": {
+          "args": [
+            "self",
+            "filename",
+            "code"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "build_tool": {
+          "args": [
+            "self",
+            "topic",
+            "description",
+            "failure_context"
+          ],
+          "kwonly": [],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [
+        "brain.utils"
+      ],
+      "project_imports_missing": []
+    },
+    {
+      "file": "agent_executor.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "subprocess",
+        "os",
+        "re"
+      ],
+      "classes": {
+        "CodeExecutorAgent": {
+          "__init__": {
+            "args": [
+              "self",
+              "agent_id"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "extract_pure_code": {
+            "args": [
+              "self",
+              "raw_data"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "execute_python_code": {
+            "args": [
+              "self",
+              "code_payload"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "execute": {
+            "args": [
+              "self",
+              "code_payload"
+            ],
+            "kwonly": [],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self",
+            "agent_id"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "extract_pure_code": {
+          "args": [
+            "self",
+            "raw_data"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "execute_python_code": {
+          "args": [
+            "self",
+            "code_payload"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "execute": {
+          "args": [
+            "self",
+            "code_payload"
+          ],
+          "kwonly": [],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    },
+    {
+      "file": "agent_healer.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "traceback",
+        "asyncio"
+      ],
+      "classes": {
+        "AutoHealerAgent": {
+          "__init__": {
+            "args": [
+              "self"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "diagnose_and_fix": {
+            "args": [
+              "self",
+              "agent_name",
+              "error_msg",
+              "retry_func"
+            ],
+            "kwonly": [],
+            "async": true
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "diagnose_and_fix": {
+          "args": [
+            "self",
+            "agent_name",
+            "error_msg",
+            "retry_func"
+          ],
+          "kwonly": [],
+          "async": true
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    },
+    {
+      "file": "agent_reviewer.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "os"
+      ],
+      "classes": {
+        "ReviewerAgent": {
+          "__init__": {
+            "args": [
+              "self"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "review_code": {
+            "args": [
+              "self",
+              "code_content"
+            ],
+            "kwonly": [],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "review_code": {
+          "args": [
+            "self",
+            "code_content"
+          ],
+          "kwonly": [],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    },
+    {
+      "file": "brain/failure_analyzer.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [],
+      "classes": {
+        "FailureAnalyzer": {
+          "__init__": {
+            "args": [
+              "self"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "analyze_failure": {
+            "args": [
+              "self",
+              "sandbox_results"
+            ],
+            "kwonly": [],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "analyze_failure": {
+          "args": [
+            "self",
+            "sandbox_results"
+          ],
+          "kwonly": [],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    },
+    {
+      "file": "safety/sandbox.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "subprocess",
+        "time",
+        "sys"
+      ],
+      "classes": {
+        "ExecutionSandbox": {
+          "__init__": {
+            "args": [
+              "self"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "Execute_and_benchmark": {
+            "args": [
+              "self",
+              "script_path"
+            ],
+            "kwonly": [],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "Execute_and_benchmark": {
+          "args": [
+            "self",
+            "script_path"
+          ],
+          "kwonly": [],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    },
+    {
+      "file": "memory/memory_core.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "sqlite3",
+        "datetime",
+        "os"
+      ],
+      "classes": {
+        "MemoryCore": {
+          "__init__": {
+            "args": [
+              "self",
+              "db_path"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "_init_db": {
+            "args": [
+              "self"
+            ],
+            "kwonly": [],
+            "async": false
+          },
+          "save_learning": {
+            "args": [
+              "self",
+              "topic",
+              "error_type",
+              "solution"
+            ],
+            "kwonly": [],
+            "async": false
+          }
+        }
+      },
+      "functions": {
+        "__init__": {
+          "args": [
+            "self",
+            "db_path"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "_init_db": {
+          "args": [
+            "self"
+          ],
+          "kwonly": [],
+          "async": false
+        },
+        "save_learning": {
+          "args": [
+            "self",
+            "topic",
+            "error_type",
+            "solution"
+          ],
+          "kwonly": [],
+          "async": false
+        }
+      },
+      "errors": [],
+      "project_imports_present": [],
+      "project_imports_missing": []
+    }
+  ],
+  "integration_signals": {
+    "Architect -> Coder": [
+      "orchestrator.py",
+      "agent_coder.py"
+    ],
+    "Pipeline -> Executor": [
+      "orchestrator.py",
+      "agent_executor.py"
+    ],
+    "Pipeline -> Healer": [
+      "orchestrator.py",
+      "agent_healer.py"
+    ],
+    "Pipeline -> Reviewer": [
+      "orchestrator.py",
+      "agent_reviewer.py"
+    ],
+    "Pipeline -> FailureAnalyzer": [
+      "orchestrator.py"
+    ],
+    "Pipeline -> Sandbox": [
+      "orchestrator.py",
+      "brain/failure_analyzer.py"
+    ],
+    "Pipeline -> Memory": [],
+    "Orchestrator -> Autonomy": [
+      "core/autonomy/architect.py"
+    ]
+  }
+}

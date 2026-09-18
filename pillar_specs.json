@@ -1,0 +1,18 @@
+[
+  {
+    "pillar_id": "pillar-01",
+    "name": "Example Pillar",
+    "objective": "Replace this with the real pillar objective.",
+    "requirements": [
+      "Define exact capabilities."
+    ],
+    "constraints": [
+      "Preserve existing working architecture."
+    ],
+    "acceptance_criteria": [
+      "All relevant tests pass.",
+      "No existing core functionality regresses."
+    ],
+    "priority": "high"
+  }
+]

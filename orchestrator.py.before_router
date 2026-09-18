@@ -3,11 +3,6 @@ import asyncio
 from agent_business import BusinessAgent
 from agent_coder import CoderAgent
 from agent_reviewer import ReviewerAgent
-from agent_researcher import ResearcherAgent
-from agent_executor import CodeExecutorAgent
-from agent_healer import AutoHealerAgent
-from agent_media import MediaAgent
-from agent_trading import TradingAgent
 from memory import MemoryCore
 
 from brain.utils import validate_and_clean_input, generate_tool_name
@@ -18,7 +13,6 @@ from brain.failure_analyzer import FailureAnalyzer
 from safety.sandbox import ExecutionSandbox
 from evolution.evaluator import SystemEvaluator
 from integrations.vfx_forge.task_router import GraphicsTaskRouter
-from agents.registry import AgentRegistry, AgentAdapter, AgentRouter
 
 class MasterOrchestrator:
     def __init__(self):
@@ -33,97 +27,8 @@ class MasterOrchestrator:
         self.business = BusinessAgent()
         self.coder = CoderAgent()
         self.reviewer = ReviewerAgent()
-        self.researcher = ResearcherAgent()
-        self.executor = CodeExecutorAgent()
-        self.healer = AutoHealerAgent()
-        self.media = MediaAgent()
-        self.trading = TradingAgent()
         self.memory = MemoryCore()
         self.graphics_router = GraphicsTaskRouter()
-
-        # Agent Registry + Capability Router
-        self.agent_registry = AgentRegistry()
-        self.agent_router = AgentRouter(self.agent_registry)
-
-        self.agent_registry.register(
-            AgentAdapter(
-                agent_id="Business-02",
-                name="Business Agent",
-                agent=self.business,
-                capabilities={"business", "monetization", "strategy"},
-                reliability=0.95,
-            )
-        )
-
-        self.agent_registry.register(
-            AgentAdapter(
-                agent_id="Coder-02",
-                name="Coder Agent",
-                agent=self.coder,
-                capabilities={"coding", "python", "code_generation"},
-                reliability=0.98,
-            )
-        )
-
-        self.agent_registry.register(
-            AgentAdapter(
-                agent_id="Researcher-02",
-                name="Research Agent",
-                agent=self.researcher,
-                capabilities={"research", "web_research"},
-                reliability=0.90,
-            )
-        )
-
-        self.agent_registry.register(
-            AgentAdapter(
-                agent_id="Reviewer-02",
-                name="Reviewer Agent",
-                agent=self.reviewer,
-                capabilities={"review", "security", "code_review"},
-                reliability=0.92,
-            )
-        )
-
-        self.agent_registry.register(
-            AgentAdapter(
-                agent_id="Executor-02",
-                name="Executor Agent",
-                agent=self.executor,
-                capabilities={"execution", "testing"},
-                reliability=0.88,
-            )
-        )
-
-        self.agent_registry.register(
-            AgentAdapter(
-                agent_id="Healer-02",
-                name="Healer Agent",
-                agent=self.healer,
-                capabilities={"repair", "recovery"},
-                reliability=0.85,
-            )
-        )
-
-        self.agent_registry.register(
-            AgentAdapter(
-                agent_id="Media-02",
-                name="Media Agent",
-                agent=self.media,
-                capabilities={"media", "content"},
-                reliability=0.87,
-            )
-        )
-
-        self.agent_registry.register(
-            AgentAdapter(
-                agent_id="Trading-02",
-                name="Trading Agent",
-                agent=self.trading,
-                capabilities={"trading", "market_analysis"},
-                reliability=0.80,
-            )
-        )
 
     async def run_full_swarm_cycle(self, user_input):
         # 0. Strict Input Validation

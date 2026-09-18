@@ -1,0 +1,10 @@
+{
+  "completed": [
+    1,
+    2,
+    3
+  ],
+  "current": 4,
+  "status": "BASELINE_FAILED",
+  "history": []
+}

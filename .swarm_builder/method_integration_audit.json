@@ -1,0 +1,1035 @@
+{
+  "project_root": "/data/data/com.termux/files/home/Prem-Swarm-AI",
+  "mode": "read_only",
+  "verdict": "READY_FOR_ADAPTER_MAPPING",
+  "targets": [
+    {
+      "file": "core/autonomy/integration_adapter.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "dataclasses",
+        "typing",
+        "pathlib",
+        ".model_adapter",
+        ".codebase_intelligence",
+        ".architect",
+        ".verification",
+        ".repair_engine",
+        ".integration_gate",
+        "agent_coder",
+        "agent_executor",
+        "agent_healer",
+        "agent_reviewer",
+        "brain.failure_analyzer",
+        "safety.sandbox",
+        "memory.memory_core"
+      ],
+      "classes": {
+        "AdapterResult": {},
+        "Phase2IntegrationAdapter": {
+          "__init__": {
+            "signature": "def __init__(self, root=None, dry_run=True):\n    from pathlib import Path\n    self.root = Path(root or '.').resolve()\n    self.dry_run_mode = dry_run\n    self.model = None\n    self.intelligence = None\n    self.architect = None\n    self.verifier = None\n    self.repair = None\n    self.gate = None\n    self.coder = None\n    self.executor = None\n    self.healer = None\n    self.reviewer = None\n    self.failure_analyzer = None\n    self.sandbox = None\n    self.memory = None",
+            "args": [
+              "self",
+              "root",
+              "dry_run"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 32
+          },
+          "load_phase2": {
+            "signature": "def load_phase2(self):\n    from .model_adapter import ModelAdapter\n    from .codebase_intelligence import CodebaseIntelligence\n    from .architect import AutonomousArchitect\n    from .verification import VerificationEngine\n    from .repair_engine import RepairEngine\n    from .integration_gate import IntegrationGate\n    self.model = ModelAdapter()\n    self.intelligence = CodebaseIntelligence(self.root)\n    self.architect = AutonomousArchitect(self.model)\n    self.verifier = VerificationEngine(self.root)\n    self.repair = RepairEngine(self.model)\n    self.gate = IntegrationGate(self.root, self.root / '.swarm_builder' / 'backups')\n    return True",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 53
+          },
+          "load_existing_agents": {
+            "signature": "def load_existing_agents(self):\n    \"\"\"\n        Import and instantiate existing agents using their\n        discovered constructor signatures.\n\n        No generation or execution is performed here.\n        \"\"\"\n    from agent_coder import CoderAgent\n    from agent_executor import CodeExecutorAgent\n    from agent_healer import AutoHealerAgent\n    from agent_reviewer import ReviewerAgent\n    from brain.failure_analyzer import FailureAnalyzer\n    from safety.sandbox import ExecutionSandbox\n    from memory.memory_core import MemoryCore\n    self.coder = CoderAgent()\n    self.executor = CodeExecutorAgent('phase2-v2')\n    self.healer = AutoHealerAgent()\n    self.reviewer = ReviewerAgent()\n    self.failure_analyzer = FailureAnalyzer()\n    self.sandbox = ExecutionSandbox()\n    memory_path = self.root / 'swarm_memory.db'\n    self.memory = MemoryCore(str(memory_path))\n    return True",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 73
+          },
+          "audit_components": {
+            "signature": "def audit_components(self):\n    components = {'phase2.model': self.model, 'phase2.intelligence': self.intelligence, 'phase2.architect': self.architect, 'phase2.verifier': self.verifier, 'phase2.repair': self.repair, 'phase2.gate': self.gate, 'existing.coder': self.coder, 'existing.executor': self.executor, 'existing.healer': self.healer, 'existing.reviewer': self.reviewer, 'existing.failure_analyzer': self.failure_analyzer, 'existing.sandbox': self.sandbox, 'existing.memory': self.memory}\n    result = {}\n    for name, obj in components.items():\n        result[name] = {'loaded': obj is not None, 'type': type(obj).__name__ if obj else None}\n    return result",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 101
+          },
+          "dry_run": {
+            "signature": "def dry_run(self, pillar_name='V2_INTEGRATION_TEST'):\n    \"\"\"\n        Validate the complete intended control flow without\n        modifying files or generating code.\n        \"\"\"\n    stages = ['pillar_received', 'codebase_intelligence', 'architect', 'coder_boundary', 'integration_gate', 'executor_boundary', 'reviewer_boundary', 'verification', 'failure_analyzer_boundary', 'healer_boundary', 'memory_boundary', 'next_pillar']\n    return AdapterResult(status='PASS', stage='dry_run', message='Phase 2 V2 integration boundaries are ready.', details={'pillar': pillar_name, 'dry_run': self.dry_run, 'stages': stages, 'components': self.audit_components(), 'real_code_generation': False, 'real_execution': False, 'filesystem_mutation': False, 'external_llm_call': False})",
+            "args": [
+              "self",
+              "pillar_name"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 128
+          },
+          "status": {
+            "signature": "def status(self):\n    return {'adapter': 'Phase2IntegrationAdapter', 'mode': 'DRY_RUN' if self.dry_run else 'LIVE', 'phase2_loaded': self.architect is not None, 'existing_agents_loaded': self.coder is not None, 'root': str(self.root)}",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 165
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [
+        {
+          "call": "ModelAdapter",
+          "line": 61
+        },
+        {
+          "call": "CodebaseIntelligence",
+          "line": 62
+        },
+        {
+          "call": "AutonomousArchitect",
+          "line": 63
+        },
+        {
+          "call": "VerificationEngine",
+          "line": 64
+        },
+        {
+          "call": "RepairEngine",
+          "line": 65
+        },
+        {
+          "call": "IntegrationGate",
+          "line": 66
+        },
+        {
+          "call": "CoderAgent",
+          "line": 89
+        },
+        {
+          "call": "CodeExecutorAgent",
+          "line": 90
+        },
+        {
+          "call": "AutoHealerAgent",
+          "line": 91
+        },
+        {
+          "call": "ReviewerAgent",
+          "line": 92
+        },
+        {
+          "call": "FailureAnalyzer",
+          "line": 93
+        },
+        {
+          "call": "ExecutionSandbox",
+          "line": 94
+        },
+        {
+          "call": "MemoryCore",
+          "line": 97
+        }
+      ],
+      "errors": []
+    },
+    {
+      "file": "core/autonomy/architect.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "__future__",
+        "json",
+        "dataclasses",
+        "typing"
+      ],
+      "classes": {
+        "FileChange": {},
+        "BuildPlan": {},
+        "AutonomousArchitect": {
+          "__init__": {
+            "signature": "def __init__(self, model):\n    self.model = model",
+            "args": [
+              "self",
+              "model"
+            ],
+            "required_args": [
+              "self",
+              "model"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 26
+          },
+          "create_plan": {
+            "signature": "def create_plan(self, spec: dict, workspace: dict, context: str) -> BuildPlan:\n    prompt = f\"PILLAR SPEC:\\n{json.dumps(spec, indent=2)}\\n\\nWORKSPACE SUMMARY:\\n{json.dumps({k: v for k, v in workspace.items() if k != 'hashes'}, indent=2)}\\n\\nRELEVANT SOURCE:\\n{context}\\n\\nReturn JSON with:\\npillar_id, summary, changes[], tests[], integration_points[].\\nEach change must have action=create|modify, path, content, reason.\\nDo not modify tests unless needed. Do not touch .git or secrets.\\n\"\n    r = self.model.generate(self.SYSTEM, prompt)\n    if r.error or not r.text.strip():\n        return BuildPlan(spec['pillar_id'], spec['objective'], tests=['python -m compileall -q .'])\n    text = r.text.strip()\n    if text.startswith('```'):\n        text = text.split('\\n', 1)[1].rsplit('```', 1)[0].strip()\n    try:\n        obj = json.loads(text)\n        changes = []\n        for c in obj.get('changes', []):\n            if c.get('action') in ('create', 'modify') and c.get('path'):\n                changes.append(FileChange(**{'action': c['action'], 'path': c['path'], 'content': c.get('content', ''), 'reason': c.get('reason', '')}))\n        return BuildPlan(pillar_id=obj.get('pillar_id', spec['pillar_id']), summary=obj.get('summary', spec['objective']), changes=changes, tests=obj.get('tests', ['python -m compileall -q .']), integration_points=obj.get('integration_points', []))\n    except Exception:\n        return BuildPlan(spec['pillar_id'], spec['objective'], tests=['python -m compileall -q .'])",
+            "args": [
+              "self",
+              "spec",
+              "workspace",
+              "context"
+            ],
+            "required_args": [
+              "self",
+              "spec",
+              "workspace",
+              "context"
+            ],
+            "keyword_only": [],
+            "return_annotation": "BuildPlan",
+            "async": false,
+            "line": 29
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "core/autonomy/verification.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "__future__",
+        "subprocess",
+        "sys",
+        "dataclasses",
+        "pathlib",
+        "typing"
+      ],
+      "classes": {
+        "VerificationResult": {},
+        "VerificationEngine": {
+          "__init__": {
+            "signature": "def __init__(self, root: str | Path):\n    self.root = Path(root).resolve()",
+            "args": [
+              "self",
+              "root"
+            ],
+            "required_args": [
+              "self",
+              "root"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 16
+          },
+          "run": {
+            "signature": "def run(self, command: List[str], stage: str) -> VerificationResult:\n    try:\n        p = subprocess.run(command, cwd=self.root, text=True, capture_output=True, timeout=180)\n        out = (p.stdout + '\\n' + p.stderr)[-12000:]\n        return VerificationResult(p.returncode == 0, stage, out, command)\n    except subprocess.TimeoutExpired as e:\n        return VerificationResult(False, stage, f'timeout: {e}', command)",
+            "args": [
+              "self",
+              "command",
+              "stage"
+            ],
+            "required_args": [
+              "self",
+              "command",
+              "stage"
+            ],
+            "keyword_only": [],
+            "return_annotation": "VerificationResult",
+            "async": false,
+            "line": 19
+          },
+          "all": {
+            "signature": "def all(self) -> List[VerificationResult]:\n    results = [self.run([sys.executable, '-m', 'compileall', '-q', '.'], 'compile')]\n    pytest = self.root / 'pytest.ini'\n    if pytest.exists() or list(self.root.glob('test*.py')) or (self.root / 'tests').exists():\n        results.append(self.run([sys.executable, '-m', 'pytest', '-q'], 'pytest'))\n    return results",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": "List[VerificationResult]",
+            "async": false,
+            "line": 27
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "core/autonomy/repair_engine.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "__future__",
+        "json"
+      ],
+      "classes": {
+        "RepairEngine": {
+          "__init__": {
+            "signature": "def __init__(self, model):\n    self.model = model",
+            "args": [
+              "self",
+              "model"
+            ],
+            "required_args": [
+              "self",
+              "model"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 9
+          },
+          "propose": {
+            "signature": "def propose(self, failure: str, changed_files: list[str], context: str) -> dict | None:\n    prompt = f'FAILURE:\\n{failure[-12000:]}\\n\\nCHANGED FILES:\\n{json.dumps(changed_files, indent=2)}\\n\\nSOURCE CONTEXT:\\n{context[:30000]}\\n'\n    r = self.model.generate(self.SYSTEM, prompt)\n    if r.error or not r.text.strip():\n        return None\n    text = r.text.strip()\n    if text.startswith('```'):\n        text = text.split('\\n', 1)[1].rsplit('```', 1)[0].strip()\n    try:\n        obj = json.loads(text)\n        if not obj.get('path') or not isinstance(obj.get('content'), str):\n            return None\n        return obj\n    except Exception:\n        return None",
+            "args": [
+              "self",
+              "failure",
+              "changed_files",
+              "context"
+            ],
+            "required_args": [
+              "self",
+              "failure",
+              "changed_files",
+              "context"
+            ],
+            "keyword_only": [],
+            "return_annotation": "dict | None",
+            "async": false,
+            "line": 12
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "core/autonomy/integration_gate.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "__future__",
+        "hashlib",
+        "shutil",
+        "time",
+        "pathlib"
+      ],
+      "classes": {
+        "IntegrationGate": {
+          "__init__": {
+            "signature": "def __init__(self, root: str | Path, backup_dir: str | Path):\n    self.root = Path(root).resolve()\n    self.backup_dir = Path(backup_dir)\n    self.backup_dir.mkdir(parents=True, exist_ok=True)",
+            "args": [
+              "self",
+              "root",
+              "backup_dir"
+            ],
+            "required_args": [
+              "self",
+              "root",
+              "backup_dir"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 7
+          },
+          "backup": {
+            "signature": "def backup(self, rel: str) -> Path | None:\n    target = self.root / rel\n    if not target.exists():\n        return None\n    stamp = time.strftime('%Y%m%d-%H%M%S')\n    out = self.backup_dir / f\"{stamp}__{rel.replace('/', '__')}\"\n    out.parent.mkdir(parents=True, exist_ok=True)\n    shutil.copy2(target, out)\n    return out",
+            "args": [
+              "self",
+              "rel"
+            ],
+            "required_args": [
+              "self",
+              "rel"
+            ],
+            "keyword_only": [],
+            "return_annotation": "Path | None",
+            "async": false,
+            "line": 12
+          },
+          "snapshot_hash": {
+            "signature": "def snapshot_hash(self, rel: str) -> str | None:\n    p = self.root / rel\n    if not p.exists():\n        return None\n    return hashlib.sha256(p.read_bytes()).hexdigest()",
+            "args": [
+              "self",
+              "rel"
+            ],
+            "required_args": [
+              "self",
+              "rel"
+            ],
+            "keyword_only": [],
+            "return_annotation": "str | None",
+            "async": false,
+            "line": 21
+          },
+          "allowed": {
+            "signature": "def allowed(self, rel: str) -> bool:\n    p = Path(rel)\n    blocked = {'.git', '.env', 'credentials.json'}\n    return not any((part in blocked for part in p.parts)) and (not p.name.endswith(('.key', '.pem')))",
+            "args": [
+              "self",
+              "rel"
+            ],
+            "required_args": [
+              "self",
+              "rel"
+            ],
+            "keyword_only": [],
+            "return_annotation": "bool",
+            "async": false,
+            "line": 26
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "core/autonomy/codebase_intelligence.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "__future__",
+        "ast",
+        "hashlib",
+        "pathlib",
+        "typing"
+      ],
+      "classes": {
+        "CodebaseIntelligence": {
+          "__init__": {
+            "signature": "def __init__(self, root: str | Path):\n    self.root = Path(root).resolve()",
+            "args": [
+              "self",
+              "root"
+            ],
+            "required_args": [
+              "self",
+              "root"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 12
+          },
+          "scan": {
+            "signature": "def scan(self) -> Dict[str, Any]:\n    modules = []\n    imports = {}\n    symbols = {}\n    hashes = {}\n    for p in self.root.rglob('*.py'):\n        if any((part in IGNORED for part in p.parts)):\n            continue\n        try:\n            if p.stat().st_size > MAX_BYTES:\n                continue\n            src = p.read_text(encoding='utf-8')\n            rel = str(p.relative_to(self.root))\n            tree = ast.parse(src, filename=rel)\n            modules.append(rel)\n            imports[rel] = sorted({n.module or '' for n in tree.body if isinstance(n, ast.ImportFrom)} | {n.name for n in tree.body if isinstance(n, ast.Import)})\n            symbols[rel] = sorted([n.name for n in tree.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))])\n            hashes[rel] = hashlib.sha256(src.encode()).hexdigest()\n        except (OSError, UnicodeError, SyntaxError):\n            continue\n    return {'root': str(self.root), 'python_files': sorted(modules), 'imports': imports, 'symbols': symbols, 'hashes': hashes, 'python_file_count': len(modules)}",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": "Dict[str, Any]",
+            "async": false,
+            "line": 15
+          },
+          "relevant_context": {
+            "signature": "def relevant_context(self, spec: Dict[str, Any], limit: int=80000) -> str:\n    data = self.scan()\n    keywords = set()\n    for field in ('name', 'objective'):\n        keywords.update(str(spec.get(field, '')).lower().split())\n    keywords.update((str(x).lower() for x in spec.get('requirements', [])))\n    ranked = []\n    for path in data['python_files']:\n        hay = (path + ' ' + ' '.join(data['symbols'].get(path, []))).lower()\n        score = sum((1 for k in keywords if len(k) > 2 and k in hay))\n        ranked.append((score, path))\n    ranked.sort(reverse=True)\n    selected = ranked[:40]\n    chunks = []\n    for _, path in selected:\n        p = self.root / path\n        try:\n            src = p.read_text(encoding='utf-8')\n        except Exception:\n            continue\n        chunks.append(f'\\n### FILE: {path}\\n{src[:6000]}')\n        if sum(map(len, chunks)) >= limit:\n            break\n    return ''.join(chunks)[:limit]",
+            "args": [
+              "self",
+              "spec",
+              "limit"
+            ],
+            "required_args": [
+              "self",
+              "spec"
+            ],
+            "keyword_only": [],
+            "return_annotation": "str",
+            "async": false,
+            "line": 47
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "agent_coder.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "os",
+        "re",
+        "time",
+        "ast",
+        "requests",
+        "brain.utils"
+      ],
+      "classes": {
+        "CoderAgent": {
+          "__init__": {
+            "signature": "def __init__(self):\n    self.api_key = os.environ.get('GROQ_API_KEY')\n    self.url = 'https://api.groq.com/openai/v1/chat/completions'",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 9
+          },
+          "_extract_python": {
+            "signature": "def _extract_python(self, text):\n    if not text:\n        raise ValueError('Empty model response')\n    text = text.strip()\n    match = re.search('```(?:python|py)?\\\\s*(.*?)```', text, flags=re.DOTALL | re.IGNORECASE)\n    if match:\n        text = match.group(1).strip()\n    lines = text.splitlines()\n    while lines:\n        first = lines[0].strip()\n        if (first.startswith(('import ', 'from ', 'class ', 'def ', 'if ')) or first.startswith('#!')) and (not first.startswith('1.')):\n            break\n        lines.pop(0)\n    text = '\\n'.join(lines).strip()\n    if not text:\n        raise ValueError('No Python source detected in output')\n    ast.parse(text)\n    return text",
+            "args": [
+              "self",
+              "text"
+            ],
+            "required_args": [
+              "self",
+              "text"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 13
+          },
+          "_write_verified": {
+            "signature": "def _write_verified(self, filename, code):\n    with open(filename, 'w', encoding='utf-8') as f:\n        f.write(code)\n    print(f\"\ud83d\ude80 [Coder-02] Built & Verified Syntax for '{filename}'!\")\n    return filename",
+            "args": [
+              "self",
+              "filename",
+              "code"
+            ],
+            "required_args": [
+              "self",
+              "filename",
+              "code"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 40
+          },
+          "build_tool": {
+            "signature": "def build_tool(self, topic, description, failure_context=None):\n    filename = generate_tool_name(topic)\n    print(f\"\u26a1 [Coder-02] Synthesizing Engine: '{filename}'...\")\n    repair = ''\n    if failure_context:\n        repair = f'\\nCRITICAL FIX REQUIRED (PREVIOUS FAILURE):\\n{failure_context}\\nDo NOT block on sys.stdin when running self-tests.\\n'\n    prompt = f\"\\nYou are a Python code generation engine.\\n\\nTASK:\\n{topic}\\n\\nDESCRIPTION:\\n{description}\\n\\n{repair}\\n\\nSTRICT TECHNICAL CONTRACT:\\n1. Return ONLY executable Python 3 source code. Zero markdown or prose.\\n2. Use Python standard library modules only.\\n3. NON-BLOCKING INPUT: If reading stdin, check `if not sys.stdin.isatty():` or wrap stdin calls inside functions so self-tests run non-interactively without waiting forever.\\n4. ENTRY POINT: The script MUST execute its automated self-tests directly inside `if __name__ == '__main__':` and call `sys.exit(0)` on success.\\n\"\n    payload = {'model': 'llama-3.1-8b-instant', 'messages': [{'role': 'system', 'content': 'You are a strict Python generator. Return complete, valid Python source code only.'}, {'role': 'user', 'content': prompt}], 'temperature': 0.0, 'max_tokens': 4096}\n    headers = {'Authorization': f'Bearer {self.api_key}', 'Content-Type': 'application/json'}\n    for attempt in range(1, 4):\n        try:\n            response = requests.post(self.url, headers=headers, json=payload, timeout=30)\n            if response.status_code == 429:\n                wait = min(30, 3 * attempt)\n                print(f'\u26a0\ufe0f [Coder-02] Rate limited (429). Retrying in {wait}s...')\n                time.sleep(wait)\n                continue\n            if response.status_code != 200:\n                print(f'\u26a0\ufe0f HTTP {response.status_code}: {response.text[:150]}')\n                time.sleep(2)\n                continue\n            raw = response.json()['choices'][0]['message']['content']\n            try:\n                code = self._extract_python(raw)\n                return self._write_verified(filename, code)\n            except SyntaxError as e:\n                print(f'\u274c Syntax Error (Attempt {attempt}): {e}')\n                failure_context = f'Generated Python contains SyntaxError at line {e.lineno}: {e.msg}'\n                time.sleep(1)\n                continue\n            except ValueError as e:\n                print(f'\u274c Extractor Error (Attempt {attempt}): {e}')\n                failure_context = str(e)\n                time.sleep(1)\n                continue\n        except Exception as e:\n            print(f'\u26a0\ufe0f [Coder-02] Attempt {attempt} Exception: {e}')\n            time.sleep(2 ** attempt)\n    return None",
+            "args": [
+              "self",
+              "topic",
+              "description",
+              "failure_context"
+            ],
+            "required_args": [
+              "self",
+              "topic",
+              "description"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 46
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "agent_executor.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "subprocess",
+        "os",
+        "re"
+      ],
+      "classes": {
+        "CodeExecutorAgent": {
+          "__init__": {
+            "signature": "def __init__(self, agent_id='Agent_04_Executor'):\n    self.agent_id = agent_id",
+            "args": [
+              "self",
+              "agent_id"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 4
+          },
+          "extract_pure_code": {
+            "signature": "def extract_pure_code(self, raw_data):\n    if isinstance(raw_data, dict):\n        raw_data = raw_data.get('code', '')\n    raw_str = str(raw_data)\n    match = re.search('```python(.*?)```', raw_str, re.DOTALL)\n    if match:\n        return match.group(1).strip()\n    match = re.search('```(.*?)```', raw_str, re.DOTALL)\n    if match:\n        return match.group(1).strip()\n    return raw_str.strip()",
+            "args": [
+              "self",
+              "raw_data"
+            ],
+            "required_args": [
+              "self",
+              "raw_data"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 7
+          },
+          "execute_python_code": {
+            "signature": "def execute_python_code(self, code_payload):\n    print(f'\\n[{self.agent_id}] Extracting and executing Python script...')\n    clean_script = self.extract_pure_code(code_payload)\n    temp_file = 'temp_runner.py'\n    with open(temp_file, 'w', encoding='utf-8') as f:\n        f.write(clean_script)\n    try:\n        res = subprocess.run(['python3', temp_file], capture_output=True, text=True, timeout=10)\n        if res.returncode == 0:\n            print(f'[{self.agent_id}] Execution Successful!')\n            return {'status': 'Success', 'stdout': res.stdout}\n        else:\n            return {'status': 'Error', 'stdout': res.stderr or 'Execution failed'}\n    except Exception as e:\n        return {'status': 'Error', 'stdout': str(e)}\n    finally:\n        if os.path.exists(temp_file):\n            os.remove(temp_file)",
+            "args": [
+              "self",
+              "code_payload"
+            ],
+            "required_args": [
+              "self",
+              "code_payload"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 19
+          },
+          "execute": {
+            "signature": "def execute(self, code_payload):\n    return self.execute_python_code(code_payload)",
+            "args": [
+              "self",
+              "code_payload"
+            ],
+            "required_args": [
+              "self",
+              "code_payload"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 40
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "agent_reviewer.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "os"
+      ],
+      "classes": {
+        "ReviewerAgent": {
+          "__init__": {
+            "signature": "def __init__(self):\n    self.agent_id = 'Reviewer-03'\n    self.forbidden_patterns = [\"os.remove('/')\", 'rm -rf', \"subprocess.call('rm'\", 'sys.exit()']",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 4
+          },
+          "review_code": {
+            "signature": "def review_code(self, code_content):\n    print(f'\ud83e\uddd0 [{self.agent_id}] Scanning code for security risks...')\n    for pattern in self.forbidden_patterns:\n        if pattern in code_content:\n            print(f'\u274c [{self.agent_id}] SECURITY ALERT: Dangerous pattern found: {pattern}')\n            return False\n    if 'from orchestrator' not in code_content and 'def main' not in code_content:\n        print(f'\u26a0\ufe0f [{self.agent_id}] Warning: Code structure might be unstable.')\n    print(f'\u2705 [{self.agent_id}] Security Review Passed.')\n    return True",
+            "args": [
+              "self",
+              "code_content"
+            ],
+            "required_args": [
+              "self",
+              "code_content"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 8
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "agent_healer.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "traceback",
+        "asyncio"
+      ],
+      "classes": {
+        "AutoHealerAgent": {
+          "__init__": {
+            "signature": "def __init__(self):\n    self.name = 'Auto_Healer_Delta'",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 5
+          },
+          "diagnose_and_fix": {
+            "signature": "async def diagnose_and_fix(self, agent_name, error_msg, retry_func, *args, **kwargs):\n    print(f'\\n\ud83d\udea8 [{self.name}] AUTO-HEALER TRIGGERED!')\n    print(f'[{self.name}] Error in {agent_name}: {error_msg}')\n    print(f'[{self.name}] Applying dynamic patch and retrying execution...')\n    await asyncio.sleep(1)\n    try:\n        result = await retry_func(*args, **kwargs)\n        print(f'\u2705 [{self.name}] Auto-Healing Successful!')\n        return result\n    except Exception as retry_err:\n        print(f'\u274c [{self.name}] Self-healing failed: {retry_err}')\n        return None",
+            "args": [
+              "self",
+              "agent_name",
+              "error_msg",
+              "retry_func"
+            ],
+            "required_args": [
+              "self",
+              "agent_name",
+              "error_msg",
+              "retry_func"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": true,
+            "line": 8
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "brain/failure_analyzer.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [],
+      "classes": {
+        "FailureAnalyzer": {
+          "__init__": {
+            "signature": "def __init__(self):\n    print('\ud83d\udd0d [BRAIN Core] Empirical Failure Analyzer Active.')",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 2
+          },
+          "analyze_failure": {
+            "signature": "def analyze_failure(self, sandbox_results):\n    stderr = sandbox_results.get('stderr', '')\n    exit_code = sandbox_results.get('exit_code', 0)\n    if exit_code == -1:\n        error_type = 'EXECUTION_TIMEOUT'\n        summary = 'The script timed out (>5000ms). Cause: Unbounded input read (e.g. sys.stdin.read()) without EOF or blocking loop. Ensure self-tests do not wait for interactive stdin input.'\n    elif 'ModuleNotFoundError' in stderr:\n        error_type = 'MISSING_DEPENDENCY'\n        summary = stderr[-300:]\n    elif 'SyntaxError' in stderr:\n        error_type = 'SYNTAX_ERROR'\n        summary = stderr[-300:]\n    else:\n        error_type = 'RUNTIME_CRASH'\n        summary = stderr[-300:] if stderr else 'Non-zero exit code'\n    print(f'\ud83e\ude79 [Failure Analyzer] Classification: {error_type} | Exit Code: {exit_code}')\n    return {'error_type': error_type, 'traceback_summary': summary}",
+            "args": [
+              "self",
+              "sandbox_results"
+            ],
+            "required_args": [
+              "self",
+              "sandbox_results"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 5
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "safety/sandbox.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "subprocess",
+        "time",
+        "sys"
+      ],
+      "classes": {
+        "ExecutionSandbox": {
+          "__init__": {
+            "signature": "def __init__(self):\n    print('\ud83d\udee1\ufe0f [SAFETY Core] Empirical Execution Sandbox Initialized.')",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 6
+          },
+          "Execute_and_benchmark": {
+            "signature": "def Execute_and_benchmark(self, script_path):\n    print(f\"\ud83e\uddea [Sandbox] Running empirical runtime benchmark on '{script_path}'...\")\n    start_time = time.time()\n    try:\n        process = subprocess.run([sys.executable, script_path], capture_output=True, text=True, timeout=5)\n        elapsed_ms = (time.time() - start_time) * 1000\n        success = process.returncode == 0\n        print(f'\u23f1\ufe0f [Sandbox Result] Exit Code: {process.returncode} | Execution Time: {elapsed_ms:.2f}ms')\n        return {'executed_successfully': success, 'exit_code': process.returncode, 'execution_time_ms': elapsed_ms, 'stdout': process.stdout[:200], 'stderr': process.stderr[:200]}\n    except subprocess.TimeoutExpired:\n        print('\u274c [Sandbox Result] Process TIMED OUT (>5000ms). Execution terminated.')\n        return {'executed_successfully': False, 'exit_code': -1, 'execution_time_ms': 5000, 'stdout': '', 'stderr': 'Execution Timeout Expired'}\n    except Exception as e:\n        return {'executed_successfully': False, 'exit_code': 1, 'execution_time_ms': 0, 'stdout': '', 'stderr': str(e)}",
+            "args": [
+              "self",
+              "script_path"
+            ],
+            "required_args": [
+              "self",
+              "script_path"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 9
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "memory/memory_core.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "sqlite3",
+        "datetime",
+        "os"
+      ],
+      "classes": {
+        "MemoryCore": {
+          "__init__": {
+            "signature": "def __init__(self, db_path='swarm_memory.db'):\n    self.db_path = db_path\n    self._init_db()",
+            "args": [
+              "self",
+              "db_path"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 6
+          },
+          "_init_db": {
+            "signature": "def _init_db(self):\n    conn = sqlite3.connect(self.db_path)\n    cursor = conn.cursor()\n    cursor.execute('\\n            CREATE TABLE IF NOT EXISTS learnings (\\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\\n                topic TEXT,\\n                error_type TEXT,\\n                solution TEXT,\\n                timestamp DATETIME\\n            )\\n        ')\n    conn.commit()\n    cursor.execute('PRAGMA table_info(learnings)')\n    columns = [col[1] for col in cursor.fetchall()]\n    if 'error_type' not in columns:\n        cursor.execute('ALTER TABLE learnings ADD COLUMN error_type TEXT')\n        conn.commit()\n    conn.close()",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 10
+          },
+          "save_learning": {
+            "signature": "def save_learning(self, topic, error_type, solution):\n    conn = sqlite3.connect(self.db_path)\n    cursor = conn.cursor()\n    cursor.execute('\\n            INSERT INTO learnings (topic, error_type, solution, timestamp)\\n            VALUES (?, ?, ?, ?)\\n        ', (topic, error_type, solution, datetime.now() if hasattr(datetime, 'now') else datetime.datetime.now()))\n    conn.commit()\n    conn.close()\n    print('\ud83e\udde0 [Memory Core] Mission learning successfully indexed into database.')",
+            "args": [
+              "self",
+              "topic",
+              "error_type",
+              "solution"
+            ],
+            "required_args": [
+              "self",
+              "topic",
+              "error_type",
+              "solution"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 35
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [],
+      "errors": []
+    },
+    {
+      "file": "orchestrator.py",
+      "exists": true,
+      "syntax_ok": true,
+      "imports": [
+        "os",
+        "asyncio",
+        "agent_business",
+        "agent_coder",
+        "agent_reviewer",
+        "agent_researcher",
+        "agent_executor",
+        "agent_healer",
+        "agent_media",
+        "agent_trading",
+        "memory",
+        "brain.utils",
+        "brain.intent_engine",
+        "brain.planning_engine",
+        "brain.critic",
+        "brain.failure_analyzer",
+        "safety.sandbox",
+        "evolution.evaluator",
+        "integrations.vfx_forge.task_router",
+        "agents.registry"
+      ],
+      "classes": {
+        "MasterOrchestrator": {
+          "__init__": {
+            "signature": "def __init__(self):\n    print('\\n\u26a1 [SWARM COGNITIVE MATRIX] Initializing Subsystems...')\n    self.intent_engine = IntentEngine()\n    self.planner = PlanningEngine()\n    self.critic = AdversarialCritic()\n    self.failure_analyzer = FailureAnalyzer()\n    self.sandbox = ExecutionSandbox()\n    self.evaluator = SystemEvaluator()\n    self.business = BusinessAgent()\n    self.coder = CoderAgent()\n    self.reviewer = ReviewerAgent()\n    self.researcher = ResearcherAgent()\n    self.executor = CodeExecutorAgent()\n    self.healer = AutoHealerAgent()\n    self.media = MediaAgent()\n    self.trading = TradingAgent()\n    self.memory = MemoryCore()\n    self.graphics_router = GraphicsTaskRouter()\n    self.agent_registry = AgentRegistry()\n    self.agent_router = AgentRouter(self.agent_registry)\n    self.agent_registry.register(AgentAdapter(agent_id='Business-02', name='Business Agent', agent=self.business, capabilities={'business', 'monetization', 'strategy'}, reliability=0.95))\n    self.agent_registry.register(AgentAdapter(agent_id='Coder-02', name='Coder Agent', agent=self.coder, capabilities={'coding', 'python', 'code_generation'}, reliability=0.98))\n    self.agent_registry.register(AgentAdapter(agent_id='Researcher-02', name='Research Agent', agent=self.researcher, capabilities={'research', 'web_research'}, reliability=0.9))\n    self.agent_registry.register(AgentAdapter(agent_id='Reviewer-02', name='Reviewer Agent', agent=self.reviewer, capabilities={'review', 'security', 'code_review'}, reliability=0.92))\n    self.agent_registry.register(AgentAdapter(agent_id='Executor-02', name='Executor Agent', agent=self.executor, capabilities={'execution', 'testing'}, reliability=0.88))\n    self.agent_registry.register(AgentAdapter(agent_id='Healer-02', name='Healer Agent', agent=self.healer, capabilities={'repair', 'recovery'}, reliability=0.85))\n    self.agent_registry.register(AgentAdapter(agent_id='Media-02', name='Media Agent', agent=self.media, capabilities={'media', 'content'}, reliability=0.87))\n    self.agent_registry.register(AgentAdapter(agent_id='Trading-02', name='Trading Agent', agent=self.trading, capabilities={'trading', 'market_analysis'}, reliability=0.8))",
+            "args": [
+              "self"
+            ],
+            "required_args": [
+              "self"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": false,
+            "line": 24
+          },
+          "run_full_swarm_cycle": {
+            "signature": "async def run_full_swarm_cycle(self, user_input):\n    clean_prompt = validate_and_clean_input(user_input)\n    if not clean_prompt:\n        print('\u26a0\ufe0f [Input Gate] Invalid or UI prompt echo detected. Aborting mission.')\n        return\n    if self.graphics_router.can_handle(clean_prompt):\n        print('\\n\ud83c\udfa8 [Graphics/VFX Router] Specialist task detected.')\n        try:\n            result = self.graphics_router.route(clean_prompt)\n            print('\u2705 [Graphics/VFX Agent] Task completed.')\n            print(f'\ud83d\udce6 Result: {result}')\n            self.memory.save_learning(clean_prompt, 'VFX_SUCCESS', str(result))\n            return result\n        except Exception as e:\n            print(f'\u274c [Graphics/VFX Agent] Task failed: {e}')\n            self.memory.save_learning(clean_prompt, 'VFX_ERROR', str(e))\n            return\n    intent_info = self.intent_engine.classify_intent(clean_prompt)\n    print(f\"\\n\ud83e\udded [Intent Classifier] Input Type Detected: '{intent_info['intent']}'\")\n    if intent_info['intent'] == 'RUN_COMMAND':\n        print(f\"\u2699\ufe0f [System Exec Routing] Executing shell command: '{clean_prompt}'\")\n        os.system(clean_prompt)\n        return\n    business_niche = clean_prompt\n    filename = generate_tool_name(business_niche)\n    print(f'\\n=================== \ud83d\ude80 COGNITIVE MATRIX RUN: {business_niche[:50]}... ===================')\n    print(f'\ud83d\udccc Clean Tool Slug: {filename}')\n    plan = self.planner.decompose_mission(business_niche)\n    try:\n        biz_plan = self.business.generate_monetization_plan(business_niche)\n    except Exception as e:\n        print(f'\u26a0\ufe0f Strategy warning: {e}')\n    failure_context = None\n    for repair_cycle in range(1, 3):\n        print(f'\\n\ud83d\udd04 --- Synthesis & Test Pass (Cycle {repair_cycle}) ---')\n        created_file = self.coder.build_tool(business_niche, f'Automated engine for {business_niche}', failure_context)\n        if not created_file or not os.path.exists(created_file):\n            print('\u274c File synthesis failed completely.')\n            break\n        with open(created_file, 'r') as f:\n            code = f.read()\n        critic_res = self.critic.critique_candidate(business_niche, code)\n        sec_res = self.reviewer.review_code(code)\n        sandbox_res = self.sandbox.Execute_and_benchmark(created_file)\n        eval_res = self.evaluator.evaluate_build(sandbox_res, critic_res, sec_res)\n        if eval_res['status'] == 'PASS':\n            print(f'\\n\u2705 Mission Passed Empirical Gate on Cycle {repair_cycle}!')\n            print(f\"\ud83d\udcca Score: {eval_res['total_score']}/100 | Execution Latency: {sandbox_res['execution_time_ms']:.2f}ms\")\n            self.memory.save_learning(business_niche, 'NO_ERROR', f\"Score: {eval_res['total_score']}/100 | File: {created_file}\")\n            return\n        else:\n            print(f\"\u26a0\ufe0f Attempt {repair_cycle} failed (Exit Code: {sandbox_res['exit_code']}). Triggering Diagnostic Analyzer...\")\n            diag = self.failure_analyzer.analyze_failure(sandbox_res)\n            failure_context = f\"Error Type: {diag['error_type']}\\nTraceback: {diag['traceback_summary']}\"\n    print('\\n\u274c Mission failed after max repair cycles. Rollback triggered.')",
+            "args": [
+              "self",
+              "user_input"
+            ],
+            "required_args": [
+              "self",
+              "user_input"
+            ],
+            "keyword_only": [],
+            "return_annotation": null,
+            "async": true,
+            "line": 128
+          }
+        }
+      },
+      "top_level_functions": {},
+      "calls_to_other_components": [
+        {
+          "call": "FailureAnalyzer",
+          "line": 29
+        },
+        {
+          "call": "ExecutionSandbox",
+          "line": 30
+        },
+        {
+          "call": "CoderAgent",
+          "line": 34
+        },
+        {
+          "call": "ReviewerAgent",
+          "line": 35
+        },
+        {
+          "call": "CodeExecutorAgent",
+          "line": 37
+        },
+        {
+          "call": "AutoHealerAgent",
+          "line": 38
+        },
+        {
+          "call": "MemoryCore",
+          "line": 41
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "risks": [],
+  "missing_methods": [],
+  "matrix": [
+    {
+      "from": "Pillar",
+      "to": "CodebaseIntelligence",
+      "method": "relevant_context"
+    },
+    {
+      "from": "CodebaseIntelligence",
+      "to": "AutonomousArchitect",
+      "method": "create_plan"
+    },
+    {
+      "from": "AutonomousArchitect",
+      "to": "CoderAgent",
+      "method": "build_tool"
+    },
+    {
+      "from": "CoderAgent",
+      "to": "IntegrationGate",
+      "method": "allowed/backup"
+    },
+    {
+      "from": "CoderAgent",
+      "to": "Executor",
+      "method": "execute"
+    },
+    {
+      "from": "Executor",
+      "to": "Sandbox",
+      "method": "Execute_and_benchmark"
+    },
+    {
+      "from": "Sandbox",
+      "to": "FailureAnalyzer",
+      "method": "analyze_failure"
+    },
+    {
+      "from": "FailureAnalyzer",
+      "to": "Healer",
+      "method": "diagnose_and_fix"
+    },
+    {
+      "from": "Reviewer",
+      "to": "VerificationEngine",
+      "method": "run/all"
+    },
+    {
+      "from": "RepairEngine",
+      "to": "CoderAgent",
+      "method": "repair proposal"
+    },
+    {
+      "from": "PASS",
+      "to": "MemoryCore",
+      "method": "save_learning"
+    }
+  ]
+}

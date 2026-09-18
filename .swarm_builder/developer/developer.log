@@ -1,0 +1,188 @@
+[2026-09-14 09:41:58] ========================================
+[2026-09-14 09:41:58] PREM DEVELOPER AI — AUTONOMOUS MODE
+[2026-09-14 09:41:58] MODEL: openai/gpt-oss-120b
+[2026-09-14 09:41:58] ========================================
+[2026-09-14 09:42:02] STOP: baseline pytest is RED
+[2026-09-14 09:42:02] .................................FFFFF................                   [100%]
+=================================== FAILURES ===================================
+_____________________ test_phase2_e2e_controlled_pipeline ______________________
+
+    def test_phase2_e2e_controlled_pipeline():
+        root = Path.cwd()
+    
+>       adapter = Phase2IntegrationAdapter(
+            root=root,
+            dry_run=True,
+        )
+
+tests/test_phase2_e2e_adapter.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/autonomy/integration_adapter.py:57: in __init__
+    self.load_existing_agents()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.autonomy.integration_adapter.Phase2IntegrationAdapter object at 0x6dd2386ba0>
+
+    def load_existing_agents(self):
+        """
+        Import and instantiate existing agents using their
+        discovered constructor signatures.
+    
+        No generation or execution is performed here.
+        """
+    
+        from agent_coder import CoderAgent
+        from agent_executor import CodeExecutorAgent
+        from agent_healer import AutoHealerAgent
+        from agent_reviewer import ReviewerAgent
+        from brain.failure_analyzer import FailureAnalyzer
+        from safety.sandbox import ExecutionSandbox
+>       from memory.memory_core import MemoryCore
+E       ModuleNotFoundError: No module named 'memory.memory_core'
+
+core/autonomy/integration_adapter.py:93: ModuleNotFoundError
+_______________________ test_method_to_method_contracts ________________________
+
+    def test_method_to_method_contracts():
+>       adapter = Phase2IntegrationAdapter(
+            root=Path.cwd(),
+            dry_run=True,
+        )
+
+tests/test_phase2_method_contracts.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/autonomy/integration_adapter.py:57: in __init__
+    self.load_existing_agents()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.autonomy.integration_adapter.Phase2IntegrationAdapter object at 0x6dc89707d0>
+
+    def load_existing_agents(self):
+        """
+        Import and instantiate existing agents using their
+        discovered constructor signatures.
+    
+        No generation or execution is performed here.
+        """
+    
+        from agent_coder import CoderAgent
+        from agent_executor import CodeExecutorAgent
+        from agent_healer import AutoHealerAgent
+        from agent_reviewer import ReviewerAgent
+        from brain.failure_analyzer import FailureAnalyzer
+        from safety.sandbox import ExecutionSandbox
+>       from memory.memory_core import MemoryCore
+E       ModuleNotFoundError: No module named 'memory.memory_core'
+
+core/autonomy/integration_adapter.py:93: ModuleNotFoundError
+_________________________ test_phase2_v2_adapter_loads _________________________
+
+    def test_phase2_v2_adapter_loads():
+        from core.autonomy.integration_adapter import Phase2IntegrationAdapter
+    
+>       adapter = Phase2IntegrationAdapter(ROOT, dry_run=True)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_phase2_v2_adapter.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/autonomy/integration_adapter.py:57: in __init__
+    self.load_existing_agents()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.autonomy.integration_adapter.Phase2IntegrationAdapter object at 0x6dc8971310>
+
+    def load_existing_agents(self):
+        """
+        Import and instantiate existing agents using their
+        discovered constructor signatures.
+    
+        No generation or execution is performed here.
+        """
+    
+        from agent_coder import CoderAgent
+        from agent_executor import CodeExecutorAgent
+        from agent_healer import AutoHealerAgent
+        from agent_reviewer import ReviewerAgent
+        from brain.failure_analyzer import FailureAnalyzer
+        from safety.sandbox import ExecutionSandbox
+>       from memory.memory_core import MemoryCore
+E       ModuleNotFoundError: No module named 'memory.memory_core'
+
+core/autonomy/integration_adapter.py:93: ModuleNotFoundError
+__________________________ test_existing_agents_load ___________________________
+
+    def test_existing_agents_load():
+        from core.autonomy.integration_adapter import Phase2IntegrationAdapter
+    
+>       adapter = Phase2IntegrationAdapter(ROOT, dry_run=True)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_phase2_v2_adapter.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/autonomy/integration_adapter.py:57: in __init__
+    self.load_existing_agents()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.autonomy.integration_adapter.Phase2IntegrationAdapter object at 0x6dc8b76ea0>
+
+    def load_existing_agents(self):
+        """
+        Import and instantiate existing agents using their
+        discovered constructor signatures.
+    
+        No generation or execution is performed here.
+        """
+    
+        from agent_coder import CoderAgent
+        from agent_executor import CodeExecutorAgent
+        from agent_healer import AutoHealerAgent
+        from agent_reviewer import ReviewerAgent
+        from brain.failure_analyzer import FailureAnalyzer
+        from safety.sandbox import ExecutionSandbox
+>       from memory.memory_core import MemoryCore
+E       ModuleNotFoundError: No module named 'memory.memory_core'
+
+core/autonomy/integration_adapter.py:93: ModuleNotFoundError
+______________________________ test_full_dry_run _______________________________
+
+    def test_full_dry_run():
+        from core.autonomy.integration_adapter import Phase2IntegrationAdapter
+    
+>       adapter = Phase2IntegrationAdapter(ROOT, dry_run=True)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_phase2_v2_adapter.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/autonomy/integration_adapter.py:57: in __init__
+    self.load_existing_agents()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.autonomy.integration_adapter.Phase2IntegrationAdapter object at 0x6dc8b77950>
+
+    def load_existing_agents(self):
+        """
+        Import and instantiate existing agents using their
+        discovered constructor signatures.
+    
+        No generation or execution is performed here.
+        """
+    
+        from agent_coder import CoderAgent
+        from agent_executor import CodeExecutorAgent
+        from agent_healer import AutoHealerAgent
+        from agent_reviewer import ReviewerAgent
+        from brain.failure_analyzer import FailureAnalyzer
+        from safety.sandbox import ExecutionSandbox
+>       from memory.memory_core import MemoryCore
+E       ModuleNotFoundError: No module named 'memory.memory_core'
+
+core/autonomy/integration_adapter.py:93: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_phase2_e2e_adapter.py::test_phase2_e2e_controlled_pipeline
+FAILED tests/test_phase2_method_contracts.py::test_method_to_method_contracts
+FAILED tests/test_phase2_v2_adapter.py::test_phase2_v2_adapter_loads - Module...
+FAILED tests/test_phase2_v2_adapter.py::test_existing_agents_load - ModuleNot...
+FAILED tests/test_phase2_v2_adapter.py::test_full_dry_run - ModuleNotFoundErr...
+5 failed, 49 passed in 2.69s
+
+

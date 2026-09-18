@@ -30,19 +30,9 @@ class VFXForgeAdapter:
         if not self.root.exists():
             raise RuntimeError("PREM-VFX-FORGE not found.")
 
-        env = dict(__import__("os").environ)
-        existing_pythonpath = env.get("PYTHONPATH", "")
-        forge_path = str(self.root)
-
-        if existing_pythonpath:
-            env["PYTHONPATH"] = forge_path + ":" + existing_pythonpath
-        else:
-            env["PYTHONPATH"] = forge_path
-
         result = subprocess.run(
             [sys.executable, "-c", code],
             cwd=str(self.root),
-            env=env,
             capture_output=True,
             text=True,
         )
