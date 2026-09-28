@@ -22,11 +22,26 @@ class MasterOrchestrator:
         self.failure_analyzer = FailureAnalyzer()
         self.sandbox = ExecutionSandbox()
         self.evaluator = SystemEvaluator()
+        self.task_queue = []
         
         self.business = BusinessAgent()
         self.coder = CoderAgent()
         self.reviewer = ReviewerAgent()
         self.memory = MemoryCore()
+
+    def assign_task(self, agent_id, task):
+        """Register a task for the swarm cycle without changing agent execution flow."""
+        if not agent_id or not task:
+            raise ValueError("agent_id and task are required")
+
+        task_record = {
+            "agent_id": str(agent_id),
+            "task": str(task),
+            "status": "queued"
+        }
+        self.task_queue.append(task_record)
+        print(f"📋 [Task Router] Queued task for {task_record['agent_id']}: {task_record['task']}")
+        return task_record
 
     async def run_full_swarm_cycle(self, user_input):
         # 0. Strict Input Validation
