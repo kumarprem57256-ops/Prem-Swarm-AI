@@ -3,7 +3,7 @@ import asyncio
 from agent_business import BusinessAgent
 from agent_coder import CoderAgent
 from agent_reviewer import ReviewerAgent
-from memory import MemoryCore
+from memory.memory_core import MemoryCore
 
 from brain.utils import validate_and_clean_input, generate_tool_name
 from brain.intent_engine import IntentEngine
